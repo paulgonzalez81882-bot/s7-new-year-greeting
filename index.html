@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>С Новым Годом от S7!</title>
+    <title>С Новым 2027 Годом от S7!</title>
     <style>
         :root {
             --s7-green: #c4d600;
-            --s7-dark: #333333;
+            --s7-dark: #1a1a2e;
         }
         body, html {
             margin: 0;
@@ -15,218 +15,265 @@
             height: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--s7-dark);
+            color: #fff;
         }
         
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .gift-box {
-            width: 150px;
-            height: 150px;
-            background-color: var(--s7-green);
-            border-radius: 20px;
-            position: relative;
-            cursor: pointer;
-            box-shadow: 0 15px 35px rgba(196, 214, 0, 0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .gift-box::before {
-            content: '';
+        #space-canvas {
             position: absolute;
-            width: 30px;
-            height: 100%;
-            background-color: #fff;
-            opacity: 0.8;
-        }
-        
-        .gift-box::after {
-            content: '';
-            position: absolute;
-            height: 30px;
+            top: 0;
+            left: 0;
             width: 100%;
-            background-color: #fff;
-            opacity: 0.8;
+            height: 100%;
+            z-index: 1;
         }
 
-        .gift-box:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 20px 40px rgba(196, 214, 0, 0.6);
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .gift-box.opened {
-            animation: popOpen 0.5s forwards;
+        /* Launch Button */
+        .launch-btn {
+            background: rgba(196, 214, 0, 0.1);
+            border: 2px solid var(--s7-green);
+            color: var(--s7-green);
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(196, 214, 0, 0.4), inset 0 0 20px rgba(196, 214, 0, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            animation: pulse 2s infinite;
+        }
+
+        .launch-btn:hover {
+            background: var(--s7-green);
+            color: var(--s7-dark);
+            box-shadow: 0 0 40px rgba(196, 214, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        .launch-btn.hide {
+            opacity: 0;
             pointer-events: none;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
         }
 
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(196, 214, 0, 0.4), inset 0 0 20px rgba(196, 214, 0, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(196, 214, 0, 0.8), inset 0 0 30px rgba(196, 214, 0, 0.4); }
+            100% { box-shadow: 0 0 20px rgba(196, 214, 0, 0.4), inset 0 0 20px rgba(196, 214, 0, 0.2); }
+        }
+
+        /* Airplane */
+        .airplane-wrapper {
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 150px;
+            opacity: 0;
+            z-index: 20;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+        }
+
+        .airplane-wrapper svg {
+            width: 100%;
+            height: auto;
+            fill: var(--s7-green);
+        }
+
+        .fly-animation {
+            animation: majesticFly 3.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes majesticFly {
+            0% { transform: translate(0, 0) rotate(15deg) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            60% { transform: translate(60vw, -50vh) rotate(35deg) scale(2.5); opacity: 1; }
+            100% { transform: translate(120vw, -120vh) rotate(45deg) scale(4); opacity: 0; }
+        }
+
+        /* Glassmorphism Card */
         .message-card {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            width: 80vw;
-            max-width: 400px;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            width: 85vw;
+            max-width: 500px;
             opacity: 0;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--s7-green);
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-top: 1px solid rgba(255,255,255,0.5);
+            border-left: 1px solid rgba(255,255,255,0.5);
+            text-align: center;
         }
 
         .message-card.show {
             transform: translate(-50%, -50%) scale(1);
             opacity: 1;
+            pointer-events: auto;
         }
 
         h1 {
             color: var(--s7-green);
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.8em;
+            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(196, 214, 0, 0.5);
         }
 
         p {
-            color: var(--s7-dark);
-            font-size: 1.2em;
-            line-height: 1.5;
+            color: #f0f0f0;
+            font-size: 1.3em;
+            line-height: 1.6;
+            font-weight: 300;
         }
-
-        .airplane {
-            position: absolute;
-            font-size: 4rem;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            color: var(--s7-green);
-        }
-
-        .airplane.fly {
-            animation: flyPlane 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        .instruction {
-            margin-top: 40px;
-            color: #888;
-            font-size: 1.1em;
-            font-weight: 500;
+        
+        .logo-text {
+            font-weight: bold;
+            color: #fff;
             letter-spacing: 1px;
-            text-transform: uppercase;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes popOpen {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.5; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        @keyframes flyPlane {
-            0% { transform: translate(-50%, 50px) rotate(-45deg) scale(0.5); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translate(150px, -300px) rotate(-15deg) scale(1.5); opacity: 0; }
-        }
-
-        /* Clouds */
-        .cloud {
-            position: absolute;
-            background: #fff;
-            border-radius: 50px;
-            opacity: 0.6;
-            animation: moveClouds linear infinite;
-        }
-        .cloud::before, .cloud::after {
-            content: '';
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-        }
-        .c1 { width: 100px; height: 30px; top: 15%; left: -100px; animation-duration: 25s; }
-        .c1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
-        .c1::after { width: 40px; height: 40px; top: -15px; right: 15px; }
-
-        .c2 { width: 150px; height: 45px; top: 75%; left: -150px; animation-duration: 35s; animation-delay: -10s; }
-        .c2::before { width: 70px; height: 70px; top: -35px; left: 25px; }
-        .c2::after { width: 60px; height: 60px; top: -25px; right: 20px; }
-
-        @keyframes moveClouds {
-            from { transform: translateX(-150px); }
-            to { transform: translateX(110vw); }
-        }
     </style>
 </head>
 <body>
 
-    <div class="cloud c1"></div>
-    <div class="cloud c2"></div>
+    <canvas id="space-canvas"></canvas>
 
-    <div class="container">
-        <div class="gift-box" id="gift" onclick="openGift()">
-            <!-- Ribbon is created via pseudo-elements -->
+    <div class="ui-layer">
+        <div class="launch-btn" id="launchBtn" onclick="launchSequence()">Разрешить взлёт</div>
+        
+        <div class="message-card" id="message">
+            <h1>С Новым Годом!</h1>
+            <p>Дорогой друг!<br><br><span class="logo-text">S7 Airlines</span> желает тебе высоких достижений, сказочных путешествий и мягких посадок. Пусть новый 2027 год принесет море невероятных открытий!</p>
         </div>
-        <div class="instruction" id="instruction">Нажмите, чтобы открыть подарок</div>
     </div>
 
-    <div class="message-card" id="message">
-        <h1>С Новым Годом!</h1>
-        <p>Дорогой друг!<br><br>S7 Airlines желает тебе сказочных полетов во сне и наяву. Пусть новый 2027 год принесет море открытий!</p>
+    <!-- SVG Airplane -->
+    <div class="airplane-wrapper" id="plane">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <path d="M504.6 156.4L317.1 237.9L161.4 34.69C157.6 29.83 151.7 26.96 145.5 27.02C139.2 27.07 133.3 30.04 129.7 34.96L110.1 61.64C102.5 71.95 106.1 86.87 117.8 93.3L269.4 176.6L127.3 237.7L57.57 197.8C52.92 195.1 47.38 194.5 42.27 196.1L12.33 205.9C2.709 209.1-2.484 219.7 1.157 229L57.69 316.6C60.48 320.9 65.23 323.5 70.36 323.5L142 323.5L257 377.9L228.6 447.1C224.2 458 227.1 470.5 236 478.1L257.6 496.6C265 502.9 276.1 502.6 283.1 495.8L339.2 441.2L498.4 372.5C512.4 366.5 517.1 348.6 507.9 336.3L504.6 156.4z"/>
+        </svg>
     </div>
-
-    <div class="airplane" id="plane">✈️</div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-        function openGift() {
-            const gift = document.getElementById('gift');
-            const message = document.getElementById('message');
-            const plane = document.getElementById('plane');
-            const instruction = document.getElementById('instruction');
+        // Canvas Starfield & Snow
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let isWarpSpeed = false;
 
-            gift.classList.add('opened');
-            instruction.style.display = 'none';
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 200; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2,
+                    speedY: Math.random() * 0.5 + 0.1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    baseSpeed: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
 
-            // Wait for box to disappear
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (isWarpSpeed) {
+                    // Warp effect: stars move fast down and right
+                    p.x += p.speedX * 15;
+                    p.y += p.speedY * 15;
+                    p.size = Math.min(p.size + 0.1, 4);
+                } else {
+                    // Normal drift (snow/stars)
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                }
+
+                // Reset particle if it goes off screen
+                if (p.y > height) { p.y = 0; p.x = Math.random() * width; p.size = Math.random()*2; }
+                if (p.y < 0) { p.y = height; p.x = Math.random() * width; p.size = Math.random()*2; }
+                if (p.x > width) { p.x = 0; p.y = Math.random() * height; p.size = Math.random()*2; }
+                if (p.x < 0) { p.x = width; p.y = Math.random() * height; p.size = Math.random()*2; }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawParticles();
+
+        // Sequence
+        function launchSequence() {
+            document.getElementById('launchBtn').classList.add('hide');
+            
+            // Initiate Warp
+            isWarpSpeed = true;
+
+            // Launch plane
             setTimeout(() => {
-                plane.classList.add('fly');
-                
-                // Fire confetti! Using S7 colors
-                var defaults = {
-                    colors: ['#c4d600', '#ffffff', '#333333']
-                };
-                
-                confetti(Object.assign({}, defaults, {
-                    particleCount: 150,
-                    spread: 80,
-                    origin: { y: 0.6 }
-                }));
+                document.getElementById('plane').classList.add('fly-animation');
+            }, 500);
 
-                // Show message
+            // Explosive Confetti when plane hits center
+            setTimeout(() => {
+                isWarpSpeed = false; // Slow down stars
+                
+                var count = 300;
+                var defaults = { origin: { y: 0.7 }, colors: ['#c4d600', '#ffffff', '#aaaaaa'] };
+
+                function fire(particleRatio, opts) {
+                    confetti(Object.assign({}, defaults, opts, {
+                        particleCount: Math.floor(count * particleRatio)
+                    }));
+                }
+
+                fire(0.25, { spread: 26, startVelocity: 55 });
+                fire(0.2, { spread: 60 });
+                fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+                fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+                fire(0.1, { spread: 120, startVelocity: 45 });
+                
+                // Show message card
                 setTimeout(() => {
-                    message.classList.add('show');
-                }, 300);
+                    document.getElementById('message').classList.add('show');
+                }, 800);
 
-            }, 400);
+            }, 2000);
         }
     </script>
 </body>
